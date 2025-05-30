@@ -40,12 +40,31 @@ function gameLoop() {
     snake.cells.unshift({ x: snake.x, y: snake.y });
     if (snake.cells.length > snake.maxCells) snake.cells.pop();
 
+    // 사과를 원형으로 빨간색으로 그림
     ctx.fillStyle = 'red';
-    ctx.fillRect(apple.x, apple.y, grid-2, grid-2);
+    ctx.beginPath();
+    ctx.arc(apple.x + grid/2 - 1, apple.y + grid/2 - 1, (grid-2)/2, 0, Math.PI * 2);
+    ctx.fill();
 
-    ctx.fillStyle = 'green';
+    // 뱀을 원형으로 보라색으로 그림
+    ctx.fillStyle = 'purple';
     snake.cells.forEach((cell, index) => {
-        ctx.fillRect(cell.x, cell.y, grid-2, grid-2);
+        ctx.beginPath();
+        ctx.arc(cell.x + grid/2 - 1, cell.y + grid/2 - 1, (grid-2)/2, 0, Math.PI * 2);
+        ctx.fill();
+        // 머리에 눈 추가
+        if (index === 0) {
+            ctx.fillStyle = '#fff';
+            // 왼쪽 눈
+            ctx.beginPath();
+            ctx.arc(cell.x + grid/2 - 5, cell.y + grid/2 - 3, 2, 0, Math.PI * 2);
+            ctx.fill();
+            // 오른쪽 눈
+            ctx.beginPath();
+            ctx.arc(cell.x + grid/2 + 5, cell.y + grid/2 - 3, 2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = 'purple';
+        }
         if (cell.x === apple.x && cell.y === apple.y) {
             snake.maxCells++;
             score++;
